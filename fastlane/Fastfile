@@ -1,0 +1,83 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+platform :ios do
+  desc "Release new private pod versio"
+  lane :do_release_lib do |options|
+
+  # 外界输入的tag标签的值
+    tagName = options[:tag]
+
+  # 输入的podspec的名字
+    specName = options[:specName]
+
+  # 输入的 repo name
+    repoName = options[:repo]
+
+    podspecPath = "#{specName}.podspec"
+
+  # 具体在这个文件上执行哪些行为
+  # 1、git pull
+    git_pull
+
+  # 3、git提交,检查 tag 是否已经存在，存在则删除
+
+      # tagName = last_git_tag
+      # verarray = tagName.split('.')
+      # verarray[-1] = verarray[-1].to_i + 1
+      # tagName = verarray.join('.')
+
+   if git_tag_exists(tag: tagName)
+
+      verarray = tagName.split('.')
+
+      verarray[-1] = verarray[-1].to_i + 1
+
+      tagName = verarray.join('.')
+
+    end
+
+# podspec升级版本号
+      version_bump_podspec(
+	path: ENV["POD_SPEC"], 
+	version_number: tagName
+      )
+  # 4、提交代码
+    git_add(path: ".")
+    git_commit(
+		path: ".", 
+		message: "版本: #{tagName}"
+	 )
+    push_to_git_remote
+
+  # 5、添加tag
+    add_git_tag(tag: tagName)
+
+  # 6、git push --tags
+    push_git_tags
+
+  # 8、pod repo push XXX  xxxx.podspec
+    pod_push(
+		path: podspecPath, 
+		repo: repoName, 
+		allow_warnings: true,
+		use_libraries: true,
+		sources:["http://git.evun.cn/ADMP-repository/Specs.git", "http://git.evun.cn/markting-app/Specs.git", "https://code.aliyun.com/ecarx-ios/ecarxOpenSpecs.git", "git@github.com/CocoaPods/Specs.git", "https://github.com/aliyun/aliyun-specs.git","http://git.evun.cn/LYNKCO-APP/LynkcoSpecs.git"]
+	 )
+ 
+  end
+end

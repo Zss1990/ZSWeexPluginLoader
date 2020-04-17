@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'ZSWeexPluginLoader'
-  s.version          = '0.0.1'
+  s.version          = '0.0.1566020670'
   s.summary          = 'Weex Plugin Loader.'
 
 # This description is used to generate tags and improve search results.
@@ -23,11 +23,11 @@ Pod::Spec.new do |s|
               在Podfile文件中使用pod 'WeexPluginLoader', :source => 'http://git.xxxx/Specs' 方式指向自己的私有源，替换GitHub上的
                        DESC
 
-  s.homepage         = 'http://git.evun.cn/ADMP-repository/iOS-WeexPluginLoader'
+  s.homepage         = 'https://github.com/Zss1990/ZSWeexPluginLoader'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'shuaishuai' => '957715883@qq.com' }
-  s.source           = { :git => 'http://git.evun.cn/ADMP-repository/iOS-WeexPluginLoader.git', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/Zss1990/ZSWeexPluginLoader.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '8.0'
